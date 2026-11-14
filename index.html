@@ -51,7 +51,8 @@
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px"><div style="width:48px;height:48px;border-radius:15px;background:#e5eedf;display:grid;place-items:center;font-size:25px">✳</div><div><strong style="font:600 22px 'Playfair Display',serif">HerAI</strong><div style="font-size:11px;color:var(--muted)">Women's wellbeing companion · Preview</div></div></div>
     <label for="herai-symptoms" style="display:block;font-size:12px;font-weight:700;margin-bottom:9px">What symptoms or changes would you like to discuss?</label>
     <textarea id="herai-symptoms" rows="4" maxlength="1200" placeholder="For example: I've been feeling unusually tired for the past few weeks..." style="width:100%;resize:vertical;border:1px solid var(--line);border-radius:5px;padding:14px;font:13px/1.7 'DM Sans',sans-serif;background:#fffefa;color:var(--ink)"></textarea>
-    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:15px"><button class="primary" id="herai-submit" type="button">GET GUIDANCE ↗</button><button class="secondary" id="herai-clear" type="button">CLEAR</button><span style="font-size:10px;color:var(--muted)">Please don't enter your name or other identifying details.</span></div>
+    <label style="display:flex;gap:10px;align-items:flex-start;margin-top:14px;font-size:11px;line-height:1.6;color:var(--muted)"><input id="herai-consent" type="checkbox" style="margin-top:3px;accent-color:#527247;flex:0 0 auto"><span>I understand my message will be sent to OpenAI to generate a response. I will not include names, contact details or other identifying information.</span></label>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:15px"><button class="primary" id="herai-submit" type="button">ASK HERAI ↗</button><button class="secondary" id="herai-clear" type="button">CLEAR</button><span id="herai-status" role="status" style="font-size:10px;color:var(--muted)">AI-powered guidance · Not medical care</span></div>
     <div id="herai-result" aria-live="polite" style="display:none;margin-top:22px;padding:20px;background:#f2f5ee;border-left:3px solid #78945f;border-radius:3px"><strong style="font:600 19px 'Playfair Display',serif" id="herai-result-title">A helpful next step</strong><p id="herai-result-copy" style="font-size:13px;line-height:1.8;color:var(--muted);margin:10px 0"></p><ul id="herai-result-list" style="font-size:12px;line-height:1.8;color:var(--ink);padding-left:20px"></ul></div>
     <div class="disclaimer" style="margin-top:18px"><strong>Important:</strong> This is an early on-page guidance demo, not a medical AI and not a diagnostic tool. It cannot reliably determine the cause or urgency of symptoms. If symptoms are severe, sudden or rapidly worsening, seek urgent medical help. If you are worried, contact a qualified healthcare professional.</div>
   </div>
@@ -70,24 +71,55 @@
 const heraiSubmit=document.getElementById('herai-submit');
 const heraiClear=document.getElementById('herai-clear');
 const heraiInput=document.getElementById('herai-symptoms');
+const heraiConsent=document.getElementById('herai-consent');
 const heraiResult=document.getElementById('herai-result');
+const heraiStatus=document.getElementById('herai-status');
 if(heraiSubmit){
-  heraiSubmit.addEventListener('click',()=>{
-    const symptoms=heraiInput.value.trim();
-    if(!symptoms){heraiInput.focus();return}
-    const urgentTerms=['chest pain','trouble breathing','difficulty breathing','shortness of breath','fainting','passed out','severe bleeding','heavy bleeding','sudden weakness','confusion','seizure','worst headache'];
-    const urgent=urgentTerms.some(term=>symptoms.toLowerCase().includes(term));
-    document.getElementById('herai-result-title').textContent=urgent?'Please seek urgent medical help':'Let’s prepare for a healthcare conversation';
-    document.getElementById('herai-result-copy').textContent=urgent
-      ?'You mentioned something that can sometimes need urgent assessment. Please tell a trusted person nearby and contact local emergency services or seek urgent medical care now. Do not wait for an online tool to assess this.'
-      :'Thanks for sharing. This preview cannot tell what is causing a symptom. If it is persistent, getting worse, unusual for you or worrying, contact a qualified healthcare professional. You deserve to have your concerns heard.';
-    document.getElementById('herai-result-list').innerHTML=urgent
-      ?'<li>Seek urgent in-person medical help now.</li><li>Share when the symptom began and any other changes with the medical team.</li>'
-      :'<li>When did it start, and has it changed over time?</li><li>How does it affect your everyday activities?</li><li>Are there medicines, health conditions or recent life changes worth mentioning?</li><li>Ask which checks or follow-up, if any, are appropriate for you.</li>';
-    heraiResult.style.display='block';
-    heraiResult.scrollIntoView({behavior:'smooth',block:'nearest'});
+  heraiSubmit.addEventListener('click',async()=>{
+    const message=heraiInput.value.trim();
+    if(!message){heraiInput.focus();return}
+    if(!heraiConsent.checked){
+      heraiStatus.textContent='Please tick the consent box before sending.';
+      heraiConsent.focus();
+      return;
+    }
+    heraiSubmit.disabled=true;
+    heraiSubmit.textContent='THINKING…';
+    heraiStatus.textContent='HerAI is preparing a response. Please wait.';
+    heraiResult.style.display='none';
+    try{
+      const response=await fetch('/api/herai',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({message})
+      });
+      const data=await response.json().catch(()=>({}));
+      if(!response.ok) throw new Error(data.error||'HerAI could not respond. Please try again.');
+      document.getElementById('herai-result-title').textContent='HerAI’s guidance';
+      document.getElementById('herai-result-copy').textContent=data.answer;
+      document.getElementById('herai-result-copy').style.whiteSpace='pre-wrap';
+      document.getElementById('herai-result-list').replaceChildren();
+      heraiResult.style.display='block';
+      heraiStatus.textContent='Response generated. If you are concerned, contact a healthcare professional.';
+      heraiResult.scrollIntoView({behavior:'smooth',block:'nearest'});
+    }catch(error){
+      document.getElementById('herai-result-title').textContent='HerAI is unavailable';
+      document.getElementById('herai-result-copy').textContent=error.message||'Please try again later.';
+      document.getElementById('herai-result-list').replaceChildren();
+      heraiResult.style.display='block';
+      heraiStatus.textContent='Check the connection and try again.';
+    }finally{
+      heraiSubmit.disabled=false;
+      heraiSubmit.textContent='ASK HERAI ↗';
+    }
   });
-  heraiClear.addEventListener('click',()=>{heraiInput.value='';heraiResult.style.display='none';heraiInput.focus()});
+  heraiClear.addEventListener('click',()=>{
+    heraiInput.value='';
+    heraiConsent.checked=false;
+    heraiResult.style.display='none';
+    heraiStatus.textContent='AI-powered guidance · Not medical care';
+    heraiInput.focus();
+  });
 }
 document.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>document.getElementById('links').classList.remove('open')));
 const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:.12});
