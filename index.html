@@ -17,7 +17,7 @@
 </head>
 <body>
 <div class="topline">A CALMER, CLEARER WAY TO THINK ABOUT WOMEN'S WELLBEING</div>
-<header class="nav"><a class="logo" href="#">HerBalance <span>30+</span></a><nav class="links" id="links"><a href="#changes">WHAT CAN CHANGE</a><a href="#everyday">EVERYDAY WELLBEING</a><a href="#checkups">CHECK-INS</a><a href="#faq">FAQ</a></nav><div style="display:flex;gap:14px;align-items:center"><a class="navbtn" href="#checkups">YOUR WELLBEING GUIDE ↗</a><button class="menu" aria-label="Toggle navigation" onclick="document.getElementById('links').classList.toggle('open')">☰</button></div></header>
+<header class="nav"><a class="logo" href="#">HerBalance <span>30+</span></a><nav class="links" id="links"><a href="#changes">WHAT CAN CHANGE</a><a href="#everyday">EVERYDAY WELLBEING</a><a href="#checkups">CHECK-INS</a><a href="#herai">HERAI</a><a href="#faq">FAQ</a></nav><div style="display:flex;gap:14px;align-items:center"><a class="navbtn" href="#checkups">YOUR WELLBEING GUIDE ↗</a><button class="menu" aria-label="Toggle navigation" onclick="document.getElementById('links').classList.toggle('open')">☰</button></div></header>
 <main>
 <section class="hero"><div><div class="eyebrow">HerBalance 30+ / WOMEN'S WELLBEING</div><h1>YOUR HEALTH.<br><em>EVERY CHAPTER.</em></h1><p>Your 30s are not a deadline or a diagnosis. They are one chapter in a changing life. Explore approachable, evidence-informed information about common health topics, habits that support wellbeing, and when it may help to speak with a healthcare professional.</p><div class="hero-actions"><a class="primary" href="#changes">EXPLORE THE GUIDE ↓</a><a class="secondary" href="#everyday">START WITH THE BASICS</a></div></div><div class="hero-card"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1100&q=85" alt="Woman enjoying a peaceful moment outdoors"><div class="hero-note">There is no one timeline for feeling well.</div></div></section>
 <div class="trust"><span>NO ONE-SIZE-FITS-ALL TIMELINE</span><span>PLAIN-LANGUAGE INFORMATION</span><span>WELLBEING WITHOUT PRESSURE</span></div>
@@ -44,7 +44,18 @@
 <div class="step reveal"><b>03</b><h3>Ask what is due</h3><p>Discuss blood pressure, vaccines and age- or risk-appropriate screening.</p></div>
 <div class="step reveal"><b>04</b><h3>Agree on next steps</h3><p>Ask what to watch for, when to follow up and where to get reliable information.</p></div>
 </div><div class="disclaimer"><strong>Important:</strong> HerBalance 30+ is an educational wellbeing website, not a medical service. It does not diagnose, treat or replace advice from a qualified healthcare professional. If a symptom is severe, sudden or worrying, seek medical care promptly. Screening and treatment recommendations vary by country and personal health history.</div></section>
-<section class="section" id="faq"><div class="section-head reveal"><div class="eyebrow">05 / GOOD QUESTIONS</div><h2>Frequently asked questions</h2></div><div class="faq reveal">
+
+<section class="section" id="herai" style="background:#e8eee3">
+  <div class="section-head reveal"><div class="eyebrow">06 / MEET YOUR WELLBEING GUIDE</div><h2>HerAI is here to help you prepare.</h2><p>Share what you are noticing and HerAI will help you organise your thoughts and prepare for a healthcare conversation. It does not diagnose conditions or replace medical care.</p></div>
+  <div class="herai-panel reveal" style="max-width:850px;background:var(--white);border:1px solid var(--line);padding:clamp(22px,4vw,38px);border-radius:8px">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px"><div style="width:48px;height:48px;border-radius:15px;background:#e5eedf;display:grid;place-items:center;font-size:25px">✳</div><div><strong style="font:600 22px 'Playfair Display',serif">HerAI</strong><div style="font-size:11px;color:var(--muted)">Women's wellbeing companion · Preview</div></div></div>
+    <label for="herai-symptoms" style="display:block;font-size:12px;font-weight:700;margin-bottom:9px">What symptoms or changes would you like to discuss?</label>
+    <textarea id="herai-symptoms" rows="4" maxlength="1200" placeholder="For example: I've been feeling unusually tired for the past few weeks..." style="width:100%;resize:vertical;border:1px solid var(--line);border-radius:5px;padding:14px;font:13px/1.7 'DM Sans',sans-serif;background:#fffefa;color:var(--ink)"></textarea>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:15px"><button class="primary" id="herai-submit" type="button">GET GUIDANCE ↗</button><button class="secondary" id="herai-clear" type="button">CLEAR</button><span style="font-size:10px;color:var(--muted)">Please don't enter your name or other identifying details.</span></div>
+    <div id="herai-result" aria-live="polite" style="display:none;margin-top:22px;padding:20px;background:#f2f5ee;border-left:3px solid #78945f;border-radius:3px"><strong style="font:600 19px 'Playfair Display',serif" id="herai-result-title">A helpful next step</strong><p id="herai-result-copy" style="font-size:13px;line-height:1.8;color:var(--muted);margin:10px 0"></p><ul id="herai-result-list" style="font-size:12px;line-height:1.8;color:var(--ink);padding-left:20px"></ul></div>
+    <div class="disclaimer" style="margin-top:18px"><strong>Important:</strong> This is an early on-page guidance demo, not a medical AI and not a diagnostic tool. It cannot reliably determine the cause or urgency of symptoms. If symptoms are severe, sudden or rapidly worsening, seek urgent medical help. If you are worried, contact a qualified healthcare professional.</div>
+  </div>
+</section>\n<section class="section" id="faq"><div class="section-head reveal"><div class="eyebrow">05 / GOOD QUESTIONS</div><h2>Frequently asked questions</h2></div><div class="faq reveal">
 <details><summary>Does every woman experience major changes at 30?</summary><p>No. There is no switch that flips on a 30th birthday. People have different bodies, health histories and life experiences. Some changes happen gradually; others may not happen at all.</p></details>
 <details><summary>Should I start taking supplements after 30?</summary><p>Not automatically. Supplements are useful in some situations but are not needed by everyone. Ask a qualified healthcare professional whether a supplement is appropriate for your diet, health and medicines.</p></details>
 <details><summary>Which health tests should women get after 30?</summary><p>There is no single test package for everyone. Recommendations depend on your country, age, family history, pregnancy history, symptoms and other risk factors. Ask your healthcare professional for a personal preventive-care plan.</p></details>
@@ -54,7 +65,30 @@
 </main>
 <footer class="footer"><a class="logo" href="#">HerBalance <span>30+</span></a><small>WELLBEING FOR EVERY CHAPTER · © 2026 HerBalance 30+</small><a class="backtop" href="#">BACK TO TOP ↑</a></footer>
 <script>
-document.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>document.getElementById('links').classList.remove('open')));
+
+const heraiSubmit=document.getElementById('herai-submit');
+const heraiClear=document.getElementById('herai-clear');
+const heraiInput=document.getElementById('herai-symptoms');
+const heraiResult=document.getElementById('herai-result');
+if(heraiSubmit){
+  heraiSubmit.addEventListener('click',()=>{
+    const symptoms=heraiInput.value.trim();
+    if(!symptoms){heraiInput.focus();return}
+    const urgentTerms=['chest pain','trouble breathing','difficulty breathing','shortness of breath','fainting','passed out','severe bleeding','heavy bleeding','sudden weakness','confusion','seizure','worst headache'];
+    const urgent=urgentTerms.some(term=>symptoms.toLowerCase().includes(term));
+    document.getElementById('herai-result-title').textContent=urgent?'Please seek urgent medical help':'Let’s prepare for a healthcare conversation';
+    document.getElementById('herai-result-copy').textContent=urgent
+      ?'You mentioned something that can sometimes need urgent assessment. Please tell a trusted person nearby and contact local emergency services or seek urgent medical care now. Do not wait for an online tool to assess this.'
+      :'Thanks for sharing. This preview cannot tell what is causing a symptom. If it is persistent, getting worse, unusual for you or worrying, contact a qualified healthcare professional. You deserve to have your concerns heard.';
+    document.getElementById('herai-result-list').innerHTML=urgent
+      ?'<li>Seek urgent in-person medical help now.</li><li>Share when the symptom began and any other changes with the medical team.</li>'
+      :'<li>When did it start, and has it changed over time?</li><li>How does it affect your everyday activities?</li><li>Are there medicines, health conditions or recent life changes worth mentioning?</li><li>Ask which checks or follow-up, if any, are appropriate for you.</li>';
+    heraiResult.style.display='block';
+    heraiResult.scrollIntoView({behavior:'smooth',block:'nearest'});
+  });
+  heraiClear.addEventListener('click',()=>{heraiInput.value='';heraiResult.style.display='none';heraiInput.focus()});
+}
+\ndocument.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>document.getElementById('links').classList.remove('open')));
 const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 </script>
